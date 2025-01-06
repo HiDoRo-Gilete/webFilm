@@ -1,5 +1,5 @@
 import { useState } from 'react'
-
+import "../css/edit.css"
 function EditFilm(){
     return(
         <>

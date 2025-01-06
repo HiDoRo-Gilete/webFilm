@@ -119,6 +119,7 @@
     --frowth-from: 1;
     --frowth-to: 1.1;
     animation: growth linear 0.2s forwards;
+    cursor: pointer;
 }
 .home__body2__number{
     position: absolute;
