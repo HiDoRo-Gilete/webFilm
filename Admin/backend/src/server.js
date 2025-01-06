@@ -39,7 +39,7 @@ const express = require('express');
 const cors = require('cors')
 const app = express();
 require('dotenv').config()
-const {getUser,initDatabase,getAllFilm} = require("./apis/db")
+const {getUser,initDatabase,getAllFilm,deleteFilm} = require("./apis/db")
 
 const port = process.env.PORT
 // Create a new router instance
@@ -47,6 +47,7 @@ const myRouter = express.Router();
 
 // Define routes for the router
 getAllFilm()
+
 app.use(cors())
 myRouter.get('/get_all_film',async (req,res)=>{
     try{
@@ -59,6 +60,7 @@ myRouter.get('/get_all_film',async (req,res)=>{
     }
 }) 
 myRouter.get('/', (req, res) => {
+
   res.send('Hello from the router!');
 });
 

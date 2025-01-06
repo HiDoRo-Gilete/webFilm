@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 const firebase = require("firebase/app");
-const { getFirestore,collection, getDocs,addDoc,doc,setDoc } =require( 'firebase/firestore/lite');
+const { getFirestore,collection, getDocs,addDoc,doc,setDoc,deleteDoc } =require( 'firebase/firestore/lite');
 const {allFilm} = require("../config/film");
 
 const {v2 } = require('cloudinary');
@@ -27,14 +27,14 @@ const initDatabase = async() =>{
                             "title":allFilm[i].title,
                             "date_start":allFilm[i].films[j].date_start,
                             "date_end":allFilm[i].films[j].date_end}
-            await postFilm(newfilm);
+            const id = Date.now().toString();
+            await postFilm(newfilm,id);
         }
     }
     console.log("Create database done!");
 }
 
-const postFilm = async(newfilm)=>{
-    const id = Date.now().toString();
+const postFilm = async(newfilm,id)=>{  
     try {
         const uploadResult = await v2.uploader.upload(
            newfilm.img, {
@@ -53,6 +53,16 @@ const postFilm = async(newfilm)=>{
         console.error("Error writing document: ", e);
         return false;
         }
+}
+const deleteFilm = async(id)=>{
+    try {
+        await v2.api.delete_resources([`WebFilm/${id}`], { type: 'upload', resource_type: 'image' });
+        const docRef = doc(db, 'Film', `img_${id}`); // Create a reference to the document
+        await deleteDoc(docRef); // Delete the document
+        console.log("Document successfully deleted!");
+      } catch (error) {
+        console.error("Error removing document: ", error);
+      }
 }
 const getAllFilm = async() =>{
     const Films = collection(db, 'Film');
@@ -76,4 +86,4 @@ const getUser = async()  => {
     console.log(userList);
     return userList;
 }
-module.exports ={ getUser,initDatabase,getAllFilm};
+module.exports ={ getUser,initDatabase,getAllFilm,deleteFilm};
