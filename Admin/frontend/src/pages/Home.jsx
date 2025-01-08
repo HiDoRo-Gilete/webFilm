@@ -2,13 +2,18 @@ import { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
 import BgHome from '../assets/bg_home.png'
 import '../css/Home.css'
-
+import AddIcon from "../assets/add.png"
 import Nextpage from "../assets/nextpage.png"
 import Prepage from "../assets/previouspage.png"
 
 
+
+
 const Home = () =>  {
-    const [allFilm,setAllFilm] = useState([])
+    const [AllFilms,setAllFilms] = useState([]);
+    const [Films,setFilms] = useState([])
+    const [searchdata,setSearchdata] = useState('');
+    //let AllFilms = [];
     const [index,setIndex] = useState([])
     useEffect(()=>{
         async function get_all_film(){
@@ -23,7 +28,9 @@ const Home = () =>  {
             const res = await response.json();
             let ide = [];
             res.data.map(item=> ide.push(0))
-            setAllFilm(res.data);
+            setFilms(res.data);
+            setAllFilms([... res.data]);
+            console.log("len",AllFilms.length)
             setIndex(ide)
             console.log(`index ${ide}, data: ${res.data}`)
         }
@@ -31,7 +38,7 @@ const Home = () =>  {
     },[])
     function setNextpage(ide){
         let temp = [... index];
-        if (index[ide] != allFilm[ide].films.length-1){
+        if (index[ide] != Films[ide].films.length-1){
             temp[ide] +=1;
         }
         else{
@@ -45,9 +52,34 @@ const Home = () =>  {
             temp[ide] -=1;
         }
         else{
-            temp[ide] = allFilm[ide].films.length-1;
+            temp[ide] = Films[ide].films.length-1;
         }
         setIndex(temp);
+    }
+    function Filter(e){
+        const text = e.target.value;
+        if(text == ''){
+            //console.log(AllFilms)
+            let newListFilm = [... AllFilms]
+            setFilms(newListFilm)
+        }
+        else{
+            let newListFilm = []
+            for(let i =0;i<AllFilms.length;i++){
+                let item = []
+                AllFilms[i].films.map((ite) =>{
+                    if (ite.name.search(text) != -1) {
+                        const newite = ite;
+                        item.push(newite)
+                    }
+                })
+                if (item.length != 0){
+                    newListFilm.push({"title":AllFilms[i].title,"films":item})
+                }
+            }
+            console.log(newListFilm)
+            setFilms(newListFilm)
+        }
     }
     const getViewRow = (row,ide)=> {
         function filmEdit(event){
@@ -99,7 +131,7 @@ const Home = () =>  {
           </div>
           </li>)
     }
-    let allfilmHTML =  allFilm.map(getViewRow);
+    let allfilmHTML =  Films.map(getViewRow);
     
     
     return(
@@ -110,6 +142,8 @@ const Home = () =>  {
                     <div className="home__body1up">
                         <div className="home__header">
                             <h1 className="home__headerlb">PHIM HAY</h1>
+                            <Link to="/add_film"><img src={AddIcon} alt="" className="add-icon" /></Link>
+                            
                         </div>
                         <div className="home__textfield">
                             <h1>Chương trình truyền hình, phim không giới hạn và nhiều nội dung hấp dẫn khác</h1>
@@ -117,10 +151,10 @@ const Home = () =>  {
                             <h2>Page này được dành riêng cho admin</h2>
                         </div>
                     </div>
-                    <input type="text" className="home__find" placeholder='Tìm kiếm phim'/>
+                    <input type="text" className="home__find" placeholder='Tìm kiếm phim' onChange={Filter}/>
                 </div>
                 <div className="home__body2">
-                    
+
                     <ul className="grid">
                         {allfilmHTML}
                         

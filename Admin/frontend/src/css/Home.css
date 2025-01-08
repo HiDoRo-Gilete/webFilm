@@ -40,6 +40,22 @@
     width: 100%;
     display: flex;
     padding: 20px 50px 20px 50px;
+    justify-content: space-between;
+    align-items: center;
+}
+.add-icon{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    padding: 10px;
+}
+.add-icon:hover{
+    cursor: pointer;
+    background-color: rgb(231, 149, 62);
+}
+.add-icon:active{
+    background-color: rgb(177, 94, 4);
 }
 .home__headerlb{
     font-size: 4rem;

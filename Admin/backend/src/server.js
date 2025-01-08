@@ -34,17 +34,20 @@
 // console.log(`Server is running on localhost:${port}`)
 
 
-
+const fs = require('fs');
+const path = require('path')
 const express = require('express');
 const cors = require('cors')
 const app = express();
 require('dotenv').config()
-const {getUser,initDatabase,getAllFilm,deleteFilm} = require("./apis/db")
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+const {getUser,initDatabase,getAllFilm,deleteFilm,postFilm} = require("./apis/db")
 
 const port = process.env.PORT
 // Create a new router instance
 const myRouter = express.Router();
-
+app.use(express.json())
 // Define routes for the router
 getAllFilm()
 
@@ -59,6 +62,34 @@ myRouter.get('/get_all_film',async (req,res)=>{
         res.status(400).json(e);
     }
 }) 
+myRouter.post('/post_film',upload.single('img'),async (req,res) => {
+  if (!req.file) {
+    console.log("No File to post")
+    return res.status(400).json({"e":"No file uploaded."});
+  }
+  try{
+    let data = req.body;
+    const id = Date.now().toString();
+    const {originalname,path} = req.file;
+    const parts = originalname.split();
+    const ext = parts[parts.length -1];
+    fs.renameSync(path,path+'.'+ext);
+    data.img = path+'.'+ext;
+    console.log(data)
+    const result = await postFilm(data,id);
+    if(result){
+      res.json({"success":true})
+    }
+    else {
+      res.status(400).json({"e":"error when post Film"})
+    }
+
+  }
+  catch(e){
+    console.log(e)
+    res.status(400).json(e)
+  }
+})
 myRouter.get('/', (req, res) => {
 
   res.send('Hello from the router!');
@@ -76,7 +107,6 @@ const corsOptions = {
     credentials: true, // Allow sending cookies
     optionsSuccessStatus: 204,
 };
-app.use(express.json)
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

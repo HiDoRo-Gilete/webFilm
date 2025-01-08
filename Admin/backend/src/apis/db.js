@@ -42,9 +42,14 @@ const postFilm = async(newfilm,id)=>{
             folder: 'WebFilm'});
         await setDoc(doc(db, "Film", `img_${id}`), { 
             name: newfilm.name,
+            athor: newfilm.athor,
             title: newfilm.title,
+            mainchar: newfilm.mainchar,
+            ttime: newfilm.ttime,
+            age: newfilm.age,
             date_start: newfilm.date_start,
             date_end: newfilm.date_end,
+            descript: newfilm.descript,
             imgurl: uploadResult.secure_url
         });
         console.log(`Document ${id} successfully written!`);
@@ -86,4 +91,4 @@ const getUser = async()  => {
     console.log(userList);
     return userList;
 }
-module.exports ={ getUser,initDatabase,getAllFilm,deleteFilm};
+module.exports ={ getUser,initDatabase,getAllFilm,deleteFilm,postFilm};

@@ -6,39 +6,68 @@
 }
 .add__body__img{
     width: 27%;
+    min-width: 200px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 100px 0;
+    padding-top: 80px;
 }
 .add__body{
     padding: 0 ;
     position: relative;
     width: 70%;
+    
     margin: 0 auto;
 }
 
 .add__body__input{
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 40px;
 }
 .add__body__inforight{
     width: 60%;
+    min-width: 400px;
     align-content: center;
     text-align: center;
-}
-.date__input{
     display: flex;
-    margin: 0;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 .add__info{
-    width: 90%;
-    margin: 10px 50px;
+    width: 40%;
+    margin: 10px 30px;
     background-color: transparent;
     border: 2px solid var(--primary-color);
     font-size: 1.6rem;
     padding: 10px 10px;
     color: white;
+    color-scheme: dark;
+    cursor: text;
+    position: relative;
+
+}
+.add__info_start,
+.add__info_end{
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+.add__info_start::before{
+    content: "Ngày khởi chiếu";
+    position: absolute;
+    top: 5px;
+    color: #7f7f7f;
+    
+}
+.add__info_end::before{
+    content: "Ngày kết thúc";
+    position: absolute;
+    top: 5px;
+    color: #7f7f7f;
+}
+.add__info::-webkit-calendar-picker-indicator:hover{
+    cursor: pointer;
 }
 
 label.label input[type="file"] {
@@ -71,14 +100,6 @@ color: #ffffff;
     font-size: 1.6rem;
 }
 
-.home__body__datelb{
-    width:250px;
-    font-size: 1.6rem;
-    display: inline-block;
-    margin-left: 50px;
-    margin-right: -20px;
-}
-
 .film_description{
     margin-top: 10px;
     font-size: 1.6rem;
@@ -93,4 +114,15 @@ color: #ffffff;
     color: white;
     font-size: 2rem;
     ;
+}
+.add__body__btnfield{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.add__body__btnfield .btn{
+    margin: 20px 20px;
+}
+.add__body__btnfield .btn:hover{
+    background-color: rgb(254, 118, 40);
 }
