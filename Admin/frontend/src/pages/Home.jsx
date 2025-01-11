@@ -5,6 +5,7 @@ import '../css/Home.css'
 import AddIcon from "../assets/add.png"
 import Nextpage from "../assets/nextpage.png"
 import Prepage from "../assets/previouspage.png"
+import Film from "../utils/Film";
 
 
 
@@ -12,6 +13,7 @@ import Prepage from "../assets/previouspage.png"
 const Home = () =>  {
     const [AllFilms,setAllFilms] = useState([]);
     const [Films,setFilms] = useState([])
+    const [id,setId] = useState(null)
     const [searchdata,setSearchdata] = useState('');
     //let AllFilms = [];
     const [index,setIndex] = useState([])
@@ -83,8 +85,11 @@ const Home = () =>  {
     }
     const getViewRow = (row,ide)=> {
         function filmEdit(event){
-            alert(event.target.getAttribute('id'))
+            setId(event.target.getAttribute('id'))
+            const loading = document.getElementById('film_loading');
+            loading.style.display = 'flex';
             console.log("Clicked element ID: " + event);
+            document.body.classList.add('no_scroll');
         }
         const cells = [];
         
@@ -101,12 +106,12 @@ const Home = () =>  {
             // console.log(row.films[item].id)
             cells.push(
                 <div className="grid__column-2">
-                    <Link to={`/info/${row.films[item].id}`}>
+                    {/* <Link to={`/film/${row.films[item].id}`}> */}
                         <div className="home__wraping">
                             <img src={row.films[item].imgurl} id ={row.films[item].id} onClick={filmEdit} alt="" className="home__body2__img" />
                             <span className="home__body2__number">{item+1}</span>
                         </div>
-                    </Link>
+                    {/*      */}
                     <span className="home__body__namef">{row.films[item].name}</span>
                     <span className="home__body__datelb">Từ ngày: {row.films[item].date_start}</span>
                     <span className="home__body__datelb">Đến ngày: {row.films[item].date_end}</span>
@@ -131,12 +136,24 @@ const Home = () =>  {
           </div>
           </li>)
     }
+    function exitFilmLoading(event){
+        if (event.target.getAttribute('id') == 'film_loading'){
+            const loading = document.getElementById('film_loading');
+            loading.style.display = 'none';
+            document.body.classList.remove('no_scroll');
+        }
+    }
     let allfilmHTML =  Films.map(getViewRow);
     
     
     return(
         <>
             <div className="home__container">
+                <div className="loading" id='film_loading' onClick={exitFilmLoading}>
+                    <div className="film__container">
+                        <Film id ={id}></Film>
+                    </div>
+                </div>
                 <div className="home__body1">
                     <img src={BgHome} alt="" className="img home__bg" />
                     <div className="home__body1up">

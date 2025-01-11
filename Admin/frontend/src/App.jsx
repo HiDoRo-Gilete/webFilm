@@ -3,7 +3,6 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import EditFilm from "./pages/EditFilm";
 import AddFilm from "./pages/AddFilm";
 
 import './App.css'
@@ -18,6 +17,7 @@ function App() {
         <Route index element={<Home/>} />
         <Route path="/add_film" element={<AddFilm/>}/>
         <Route path="/edit_film/:id" element={<AddFilm isEdit={true}/>}/>
+
       </Routes>
     </BrowserRouter>
     

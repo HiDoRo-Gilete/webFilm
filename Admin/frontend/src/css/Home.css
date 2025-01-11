@@ -36,6 +36,20 @@
 .home__container{
     
 }
+.film__container{
+    background-color: rgb(32, 31, 31);
+    min-width: 400px;
+    width: 50%;
+    height: 70%;
+    overflow: auto;
+    margin: 0;
+    padding: 0;
+    border-radius: 8px;
+    border: 2px solid var(--primary-color);
+}
+.film__container::-webkit-scrollbar {
+    display: none; 
+  }
 .home__header{
     width: 100%;
     display: flex;

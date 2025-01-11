@@ -181,9 +181,8 @@ a{
 
 .loading{
   display: none;
-
   align-items: center;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   background-color: rgba(0,0,0,0.7);
@@ -191,6 +190,11 @@ a{
   width: 100%;
   height: 100%;
   justify-content:center ;
+  margin: 0;
+  padding: 0;
 }
 
+.no_scroll{
+  overflow: hidden;
+}
 

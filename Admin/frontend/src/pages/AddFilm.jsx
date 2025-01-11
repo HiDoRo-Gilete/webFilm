@@ -75,11 +75,13 @@ const AddFilm = (Prop)=>{
                 setFileurl(film.imgurl)
 
                 loading.style.display = 'None'
+                document.body.classList.remove('no_scroll');
     
             }
         }
         if (Prop.isEdit){
             loading.style.display = 'flex';
+            document.body.classList.add('no_scroll');
             getFilmById(id)
         }
     },[])
@@ -108,11 +110,13 @@ const AddFilm = (Prop)=>{
         //     "title":type,"age":age,"date_start":dateStart,"date_end":dateEnd,"img":file};
         const loading = document.getElementById('add_film_loading');
         loading.style.display = 'flex';
+        document.body.classList.add('no_scroll');
         const response = await fetch(`${api_url}/post_film`, { 
             method: 'POST',
             body: data,
             })
         loading.style.display = 'None';
+        document.body.remove.add('no_scroll');
         if(response.ok){
             alert("This film is Post");
             navigate('/');

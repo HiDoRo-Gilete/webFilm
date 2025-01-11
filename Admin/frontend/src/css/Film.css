@@ -1,0 +1,92 @@
+.film__body{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-bottom: 50px;
+}
+.film__heading{
+    margin: 20px 20px 0 20px;
+    color: var(--primary-color);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.film__heading-label{
+    font-size: 3rem;
+}
+.film__heading-delete{
+    font-size: 1.6rem;
+}
+.film__heading-delete:hover{
+    color: #bb370a;
+    cursor: pointer;
+}
+.home__body-general{
+    width: 100%;
+    padding-top: 20px;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center; 
+    margin: 40px 40px; 
+    border: 1px solid #545353;  
+}
+.film__body-img{
+    margin-right: 40px;
+    min-width: 200px;
+    max-width: 250px;
+    border-radius: 8px;
+    border:2px solid white;
+}
+.film__body__img{
+    
+}
+.film__body__img h1{
+    color: var(--primary-color);
+    width: 250px;
+
+    line-height: 3rem;
+
+    font-size: 2.2rem;
+}
+.film__body-info{
+    height: 100%;
+    
+}
+.film__body-info h3{
+    font-size: 1.4rem;
+    color: white;
+    font-weight: 100;
+    line-height: 2rem;
+    border-bottom: 1px solid #626262;
+    padding: 0 0 5px 5px;
+    max-width: 300px;
+}
+.description{
+    display: block;
+    position: relative;
+    font-size: 1.4rem;
+    color: white;
+    font-weight: 100;
+    line-height: 2rem;
+    margin: 0 40px 40px 40px;
+    padding: 15px;
+    border: 1px solid #545353;
+}
+.description::after{
+    display: block;
+    position: absolute;
+    top:-25px;
+    left: 0%;
+    font-size: 1.6rem;
+    content: "Nội dung";
+    color: var(--primary-color);
+}
+.film__body-btn{
+    width: 80%;
+    margin: 0 auto;
+}
+.btn.btn--primary.film__body-btn:hover{
+    background-color: #bb370a;
+}
