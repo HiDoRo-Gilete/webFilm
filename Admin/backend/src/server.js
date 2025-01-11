@@ -42,7 +42,7 @@ const app = express();
 require('dotenv').config()
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
-const {getUser,initDatabase,getAllFilm,deleteFilm,postFilm} = require("./apis/db")
+const {getUser,initDatabase,getAllFilm,deleteFilm,postFilm,getFilmById} = require("./apis/db")
 
 const port = process.env.PORT
 // Create a new router instance
@@ -62,6 +62,18 @@ myRouter.get('/get_all_film',async (req,res)=>{
         res.status(400).json(e);
     }
 }) 
+myRouter.get('/info_film/:id',async (req,res) =>{
+  try{
+    const {id} =req.params;
+    const data = await getFilmById(id)
+    data.id = id;
+    console.log(data)
+    res.json(data)
+  }
+  catch(e){
+    res.status(400).json(e)
+  }
+})
 myRouter.post('/post_film',upload.single('img'),async (req,res) => {
   if (!req.file) {
     console.log("No File to post")
@@ -69,7 +81,13 @@ myRouter.post('/post_film',upload.single('img'),async (req,res) => {
   }
   try{
     let data = req.body;
-    const id = Date.now().toString();
+    let id =''
+    if (!('id' in data)){
+      id = Date.now().toString();
+    }
+    else{
+      id = data.id.split('_')[data.id.split('_').length - 1];
+    }
     const {originalname,path} = req.file;
     const parts = originalname.split();
     const ext = parts[parts.length -1];
@@ -83,7 +101,7 @@ myRouter.post('/post_film',upload.single('img'),async (req,res) => {
     else {
       res.status(400).json({"e":"error when post Film"})
     }
-
+    fs.rmSync(path+'.'+ext)
   }
   catch(e){
     console.log(e)
@@ -94,6 +112,7 @@ myRouter.get('/', (req, res) => {
 
   res.send('Hello from the router!');
 });
+
 
 myRouter.get('/about', (req, res) => {
   res.send('About us page');

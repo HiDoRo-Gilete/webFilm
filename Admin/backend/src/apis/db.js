@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 const firebase = require("firebase/app");
-const { getFirestore,collection, getDocs,addDoc,doc,setDoc,deleteDoc } =require( 'firebase/firestore/lite');
+const { getFirestore,collection, getDocs,addDoc,doc,setDoc,deleteDoc, getDoc } =require( 'firebase/firestore/lite');
 const {allFilm} = require("../config/film");
 
 const {v2 } = require('cloudinary');
@@ -52,6 +52,7 @@ const postFilm = async(newfilm,id)=>{
             descript: newfilm.descript,
             imgurl: uploadResult.secure_url
         });
+
         console.log(`Document ${id} successfully written!`);
         return true
         } catch (e) {
@@ -84,6 +85,13 @@ const getAllFilm = async() =>{
     return listFilmClassify
 }
 
+const getFilmById =  async(documentId) =>{
+    console.log("id:",documentId)
+    const docRef = doc(db, 'Film', documentId);
+    const docSnap = await getDoc(docRef);
+    return docSnap.data();
+}
+
 const getUser = async()  => {
     const user = collection(db, 'User');
     const userSnapshot = await getDocs(user);
@@ -91,4 +99,4 @@ const getUser = async()  => {
     console.log(userList);
     return userList;
 }
-module.exports ={ getUser,initDatabase,getAllFilm,deleteFilm,postFilm};
+module.exports ={ getUser,initDatabase,getAllFilm,deleteFilm,postFilm,getFilmById};

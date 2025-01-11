@@ -1,11 +1,13 @@
-import { useState } from 'react'
-import {Link,useNavigate} from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import {Link,useNavigate,useParams} from 'react-router-dom'
 import "../css/addFilm.css"
 import FilmIcon from "../assets/filmicon.png"
 import { api_url } from '../config/config'
 import ReactLoading from 'react-loading';
+import PropTypes from 'prop-types'
 
-function AddFilm(){
+const AddFilm = (Prop)=>{
+    const {id} = useParams();
     const [file,setFile] = useState(null)
     const [fileurl,setFileurl] = useState(FilmIcon);
     const [name,setName] = useState("");
@@ -18,6 +20,69 @@ function AddFilm(){
     const [dateEnd,setDateEnd] = useState(null);
     const [descript,setDescript] = useState("");
     const navigate = useNavigate();
+    useEffect(()=>{
+        const loading = document.getElementById('add_film_loading');
+        async function getFilmById(id) {
+            const response = await fetch(`${api_url}/info_film/${id}`, { 
+                method: 'GET',
+                headers: {'Content-Type':'application/json'},
+                })
+            if (!response.ok) {
+                alert(`HTTP error! status: ${response.status}`);
+                navigate('/');
+            }
+            else{
+                const film = await response.json();
+                const input_name = document.getElementById('input_name')
+                input_name.value=film.name
+                setName(film.name)
+
+                const input_athor = document.getElementById('input_athor')
+                input_athor.value=film.athor
+                setAthor(film.athor)
+
+                const input_maichar = document.getElementById('input_maichar')
+                input_maichar.value=film.mainchar
+                setMainchar(film.mainchar)
+
+                const input_age = document.getElementById('input_age')
+                input_age.value=film.age
+                setAge(film.age)
+
+                const input_dateS = document.getElementById('input_dateS')
+                input_dateS.value=film.date_start
+                setDateStart(film.date_start)
+                const input_dateE = document.getElementById('input_dateE')
+                setDateEnd(film.date_end)
+                input_dateE.value=film.date_end
+
+                const input_ttime = document.getElementById('input_ttime')
+                input_ttime.value=film.ttime
+                setTtime(film.ttime)
+
+                const input_type = document.getElementById('input_type')
+                input_type.value=film.title
+                setType(film.title)
+
+                const input_descript = document.getElementById('input_descript')
+                input_descript.value=film.descript
+                setDescript(film.descript)
+                
+                const filefromurl = await fetch(film.imgurl);
+                const blob = await filefromurl.blob();
+                const filename = film.imgurl.split('/')[film.imgurl.split('/').length - 1]
+                setFile(new File([blob], filename, { type: blob.type }))
+                setFileurl(film.imgurl)
+
+                loading.style.display = 'None'
+    
+            }
+        }
+        if (Prop.isEdit){
+            loading.style.display = 'flex';
+            getFilmById(id)
+        }
+    },[])
     function fileChange(event){
         let seletedFile = event.target.files[0];
         let url = window.URL.createObjectURL(seletedFile);
@@ -25,7 +90,6 @@ function AddFilm(){
         setFile(seletedFile)
     }
     async function postFilm(){
-        console.log("test",file)
         const data = new FormData();
         data.set('name',name);
         data.set('athor',athor);
@@ -37,6 +101,9 @@ function AddFilm(){
         data.set('date_start',dateStart);
         data.set('date_end',dateEnd);
         data.set('img',file);
+        if (Prop.isEdit){
+            data.set('id',id);
+        }
         // const newFilm = {"name":name,"athor":athor,"mainchar":mainchar,"ttime":ttime,"descript":descript,
         //     "title":type,"age":age,"date_start":dateStart,"date_end":dateEnd,"img":file};
         const loading = document.getElementById('add_film_loading');
@@ -74,24 +141,24 @@ function AddFilm(){
                     <div className="add__body__img">
                         <img src={fileurl}  alt="" className='add__img' />
                         <label className="label">
-                            <input type="file" required onChange={fileChange}/>
+                            <input type="file" id='input_file' required onChange={fileChange}/>
                             <span className='add__body__imglb'>Select image file</span>
                         </label>
                     </div>
                     <div className="add__body__inforight">
-                        <input type="text" className="add__info" placeholder='Tên phim' onChange={(event)=>{setName(event.target.value)}}/>
-                        <input type="text" className="add__info" placeholder='Tác giả' onChange={(event)=>{setAthor(event.target.value)}}/>
-                        <input type="text" className="add__info" placeholder='Diễn viên chính' onChange={(event)=>{setMainchar(event.target.value)}}/>
-                        <input type="number" className="add__info" placeholder='Thời lượng (phút)' onChange={(event)=>{setTtime(event.target.value)}}/>
-                        <input type="text" className="add__info" placeholder='Thể loại' onChange={(event)=>{setType(event.target.value)}}/>
-                        <input type="number" className="add__info" placeholder='Độ tuổi' onChange={(event)=>{setAge(event.target.value)}}/>
-                        <input type="date" className="add__info add__info_start" placeholder='MM-DD-YY' onChange={(event)=>{setDateStart(event.target.value)}}/>
-                        <input type="date" className="add__info add__info_end"  onChange={(event)=>{setDateEnd(event.target.value)}}/>
+                        <input type="text" className="add__info" placeholder='Tên phim' id='input_name' onChange={(event)=>{setName(event.target.value)}}/>
+                        <input type="text" className="add__info" placeholder='Tác giả' id='input_athor' onChange={(event)=>{setAthor(event.target.value)}}/>
+                        <input type="text" className="add__info" placeholder='Diễn viên chính' id='input_maichar' onChange={(event)=>{setMainchar(event.target.value)}}/>
+                        <input type="number" className="add__info" placeholder='Thời lượng (phút)' id='input_ttime' onChange={(event)=>{setTtime(event.target.value)}}/>
+                        <input type="text" className="add__info" placeholder='Thể loại' id='input_type' onChange={(event)=>{setType(event.target.value)}}/>
+                        <input type="number" className="add__info" placeholder='Độ tuổi' id='input_age' onChange={(event)=>{setAge(event.target.value)}}/>
+                        <input type="date" className="add__info add__info_start"id='input_dateS' placeholder='MM-DD-YY' onChange={(event)=>{setDateStart(event.target.value)}}/>
+                        <input type="date" className="add__info add__info_end"id='input_dateE'  onChange={(event)=>{setDateEnd(event.target.value)}}/>
                         
                     </div>
                 </div>
                 <span>Tóm tắt / mô tả</span>
-                <textarea name="" id="" className="film_description" onChange={(event)=>{setDescript(event.target.value)}}></textarea>
+                <textarea name="" id="input_descript" className="film_description" onChange={(event)=>{setDescript(event.target.value)}}></textarea>
                 <div className="add__body__btnfield">
                     <div className="btn btn--primary" onClick={postFilm}>
                     Xong</div>
@@ -101,5 +168,10 @@ function AddFilm(){
         </>
     )
 }
-
+AddFilm.protoTypes = {
+    isEdit : PropTypes.bool,
+}
+AddFilm.defaultProps= {
+    isEdit: false,
+}
 export default AddFilm
