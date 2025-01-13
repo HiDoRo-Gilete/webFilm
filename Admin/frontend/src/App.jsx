@@ -17,7 +17,7 @@ function App() {
         <Route index element={<Home/>} />
         <Route path="/add_film" element={<AddFilm/>}/>
         <Route path="/edit_film/:id" element={<AddFilm isEdit={true}/>}/>
-
+        
       </Routes>
     </BrowserRouter>
     

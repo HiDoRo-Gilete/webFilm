@@ -2,6 +2,7 @@
     display: flex;
     flex-wrap: wrap;
     width: 100%;
+    min-height: 300px;
     padding-bottom: 50px;
 }
 .film__heading{
@@ -89,4 +90,8 @@
 }
 .btn.btn--primary.film__body-btn:hover{
     background-color: #bb370a;
+}
+.film__edit-link{
+    width: 100%;
+    text-align: center;
 }

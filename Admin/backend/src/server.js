@@ -52,6 +52,18 @@ app.use(express.json())
 getAllFilm()
 
 app.use(cors())
+
+myRouter.get('/delete_film/:id',async (req,res) =>{
+  try{
+    const {id} =req.params;
+    const idNumber = id.split('_')[id.split('_').length-1]
+    await deleteFilm(idNumber)
+    res.json({'mes':`delete film id: ${id}`})
+  }
+  catch(e){
+    res.status(400).json({'mes':e})
+  }
+})
 myRouter.get('/get_all_film',async (req,res)=>{
     try{
         const data = await getAllFilm()

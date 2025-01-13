@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import BgHome from '../assets/bg_home.png'
 import '../css/Home.css'
 import AddIcon from "../assets/add.png"
@@ -11,10 +11,12 @@ import Film from "../utils/Film";
 
 
 const Home = () =>  {
+    
     const [AllFilms,setAllFilms] = useState([]);
     const [Films,setFilms] = useState([])
     const [id,setId] = useState(null)
     const [searchdata,setSearchdata] = useState('');
+    
     //let AllFilms = [];
     const [index,setIndex] = useState([])
     useEffect(()=>{
@@ -37,7 +39,7 @@ const Home = () =>  {
             console.log(`index ${ide}, data: ${res.data}`)
         }
         get_all_film()
-    },[])
+    },[id])
     function setNextpage(ide){
         let temp = [... index];
         if (index[ide] != Films[ide].films.length-1){
@@ -143,6 +145,14 @@ const Home = () =>  {
             document.body.classList.remove('no_scroll');
         }
     }
+    function hadleDeleteEvent(status){
+        if(status){
+            const loading = document.getElementById('film_loading');
+            loading.style.display = 'none';
+            document.body.classList.remove('no_scroll'); 
+            setId(null)
+        }
+    }
     let allfilmHTML =  Films.map(getViewRow);
     
     
@@ -151,7 +161,7 @@ const Home = () =>  {
             <div className="home__container">
                 <div className="loading" id='film_loading' onClick={exitFilmLoading}>
                     <div className="film__container">
-                        <Film id ={id}></Film>
+                        <Film id ={id} deleteEvent={hadleDeleteEvent}></Film>
                     </div>
                 </div>
                 <div className="home__body1">

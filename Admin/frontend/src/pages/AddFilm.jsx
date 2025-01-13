@@ -116,7 +116,7 @@ const AddFilm = (Prop)=>{
             body: data,
             })
         loading.style.display = 'None';
-        document.body.remove.add('no_scroll');
+        document.body.classList.remove('no_scroll');
         if(response.ok){
             alert("This film is Post");
             navigate('/');
