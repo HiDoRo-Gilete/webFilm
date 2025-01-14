@@ -1,0 +1,14 @@
+.calendar__grid{
+    width: 100%;
+    min-width: 700px;
+    
+}
+.calendar__grid .grid__row{
+    padding-bottom: 10px;
+}
+.calendar__grid-item >div:last-child{
+    border-right: none;
+}
+.calendar__grid-label{
+    font-size: 1.6rem !important;
+}

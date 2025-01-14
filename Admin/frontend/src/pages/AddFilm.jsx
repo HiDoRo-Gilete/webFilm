@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react'
 import {Link,useNavigate,useParams} from 'react-router-dom'
 import "../css/addFilm.css"
 import FilmIcon from "../assets/filmicon.png"
+import UpIcon from "../assets/up.png"
+import DownIcon from "../assets/down.png"
 import { api_url } from '../config/config'
 import ReactLoading from 'react-loading';
 import PropTypes from 'prop-types'
+import CalendarFilmEdit from '../utils/CalendarFilmEdit'
 
 const AddFilm = (Prop)=>{
     const {id} = useParams();
@@ -76,12 +79,12 @@ const AddFilm = (Prop)=>{
 
                 loading.style.display = 'None'
                 document.body.classList.remove('no_scroll');
-    
             }
         }
         if (Prop.isEdit){
             loading.style.display = 'flex';
             document.body.classList.add('no_scroll');
+            document.getElementById('input_dateS').disabled=true
             getFilmById(id)
         }
     },[])
@@ -128,6 +131,18 @@ const AddFilm = (Prop)=>{
         }
         //alert(`${name} ${athor} ${mainchar} ${ttime} ${type} ${age} ${dateStart} ${dateEnd}`)
     }
+    let isActive = false
+    function calenderActive(){
+        isActive = !isActive
+        if (isActive){
+            document.getElementById('addfilm__calendar-body').style.display = 'block'
+            document.getElementById('addfilm__calendar-icon').src=DownIcon;
+        }
+        else{
+            document.getElementById('addfilm__calendar-body').style.display = 'none'
+            document.getElementById('addfilm__calendar-icon').src=UpIcon;
+        }
+    }
     return(
         <>
             <div className="loading" id='add_film_loading'>
@@ -163,6 +178,13 @@ const AddFilm = (Prop)=>{
                 </div>
                 <span>Tóm tắt / mô tả</span>
                 <textarea name="" id="input_descript" className="film_description" onChange={(event)=>{setDescript(event.target.value)}}></textarea>
+                <div className="addfilm__calendar">
+                    <span className="addfilm__calendar-label" onClick={calenderActive}>Lịch chiếu</span>
+                    <img src={UpIcon} alt="" className="addfilm__calendar-icon" id='addfilm__calendar-icon' onClick={calenderActive} />
+                    <div className="addfilm__calendar-body" id='addfilm__calendar-body'>
+                        <CalendarFilmEdit date_start = {dateStart} date_end = {dateEnd}/>
+                    </div>
+                </div>
                 <div className="add__body__btnfield">
                     <div className="btn btn--primary" onClick={postFilm}>
                     Xong</div>

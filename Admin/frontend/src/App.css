@@ -54,6 +54,11 @@ p{
   padding-right: 12px;
   width: 16.6667%;
 }
+.grid__column-4{
+  padding-left: 12px;
+  padding-right: 12px;
+  width: 33.3333%;
+}
 .grid__column-10{
   padding-left: 12px;
   padding-right: 12px;
@@ -173,6 +178,18 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { 
   cursor: pointer;
 }
+input[type="time" i]{
+  background-color: #000;
+  color: #fff;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+input:not([type="image" i]) {
+  
+}
+input[type="time"]::-webkit-calendar-picker-indicator{
+  color-scheme: dark;
+}
 
 a{
   text-decoration: none;
@@ -198,3 +215,11 @@ a{
   overflow: hidden;
 }
 
+.border__bottom{
+  border-bottom: 1px solid var(--primary-color);
+  padding-bottom: 10px;
+}
+.border__right{
+  border-right: 1px solid var(--primary-color);
+  padding-right: 10px;
+}

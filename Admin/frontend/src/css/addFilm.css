@@ -126,3 +126,30 @@ color: #ffffff;
 .add__body__btnfield .btn:hover{
     background-color: rgb(254, 118, 40);
 }
+
+.addfilm__calendar{
+    display: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 20px;
+}
+.addfilm__calendar-label{
+}
+.addfilm__calendar-label:hover{
+    cursor: pointer;
+}
+.addfilm__calendar-icon{
+    width: 30px;
+}
+.addfilm__calendar-icon:hover{
+    cursor: pointer;
+}
+.addfilm__calendar-body{
+    display: none;
+    overflow: auto;
+    margin-top: 20px;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid var(--primary-color);
+}
