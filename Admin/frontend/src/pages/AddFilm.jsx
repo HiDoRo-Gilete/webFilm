@@ -8,6 +8,7 @@ import { api_url } from '../config/config'
 import ReactLoading from 'react-loading';
 import PropTypes from 'prop-types'
 import CalendarFilmEdit from '../utils/CalendarFilmEdit'
+import AddFilmContext from '../utils/context,js'
 
 const AddFilm = (Prop)=>{
     const {id} = useParams();
@@ -23,6 +24,7 @@ const AddFilm = (Prop)=>{
     const [dateEnd,setDateEnd] = useState(null);
     const [descript,setDescript] = useState("");
     const navigate = useNavigate();
+    const [term, setTerm] = useState(null);
     useEffect(()=>{
         const loading = document.getElementById('add_film_loading');
         async function getFilmById(id) {
@@ -106,6 +108,7 @@ const AddFilm = (Prop)=>{
         data.set('date_start',dateStart);
         data.set('date_end',dateEnd);
         data.set('img',file);
+        //dateEnd.set('term',term);
         if (Prop.isEdit){
             data.set('id',id);
         }
@@ -178,12 +181,17 @@ const AddFilm = (Prop)=>{
                 </div>
                 <span>Tóm tắt / mô tả</span>
                 <textarea name="" id="input_descript" className="film_description" onChange={(event)=>{setDescript(event.target.value)}}></textarea>
+                
                 <div className="addfilm__calendar">
-                    <span className="addfilm__calendar-label" onClick={calenderActive}>Lịch chiếu</span>
-                    <img src={UpIcon} alt="" className="addfilm__calendar-icon" id='addfilm__calendar-icon' onClick={calenderActive} />
-                    <div className="addfilm__calendar-body" id='addfilm__calendar-body'>
-                        <CalendarFilmEdit date_start = {dateStart} date_end = {dateEnd}/>
-                    </div>
+                    <div className="addfilm__calendar__btn">
+                        <span className="addfilm__calendar-label" onClick={calenderActive}>Lịch chiếu</span>
+                        <img src={UpIcon} alt="" className="addfilm__calendar-icon" id='addfilm__calendar-icon' onClick={calenderActive} />
+                    </div> 
+                    <AddFilmContext.Provider value={{term,setTerm}}>
+                        <div className="addfilm__calendar-body" id='addfilm__calendar-body'>
+                            <CalendarFilmEdit date_start = {dateStart} date_end = {dateEnd}/>
+                        </div>
+                    </AddFilmContext.Provider>                   
                 </div>
                 <div className="add__body__btnfield">
                     <div className="btn btn--primary" onClick={postFilm}>

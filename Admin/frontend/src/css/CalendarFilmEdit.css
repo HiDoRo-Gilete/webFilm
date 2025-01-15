@@ -6,9 +6,26 @@
 .calendar__grid .grid__row{
     padding-bottom: 10px;
 }
-.calendar__grid-item >div:last-child{
+.calendar__grid div{
+    text-align: center;
+}
+.calendar__grid-timezone >div:last-child{
     border-right: none;
 }
 .calendar__grid-label{
-    font-size: 1.6rem !important;
+    font-size: 1.4rem !important;
+}
+.calendar__add-icon{
+    width: 20px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    padding: 3px;
+}
+.calendar__add-icon:hover{
+    background-color: #f67f36;
+    cursor: pointer;
+}
+.calendar__grid-timezone{
+    display: flex;
+    flex-wrap: wrap;
 }

@@ -134,6 +134,13 @@ color: #ffffff;
     align-items: center;
     margin-top: 20px;
 }
+.addfilm__calendar__btn{
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    border: 2px solid var(--primary-color);
+    padding:10px;
+}
 .addfilm__calendar-label{
 }
 .addfilm__calendar-label:hover{
@@ -146,6 +153,7 @@ color: #ffffff;
     cursor: pointer;
 }
 .addfilm__calendar-body{
+
     display: none;
     overflow: auto;
     margin-top: 20px;
