@@ -24,7 +24,7 @@ const AddFilm = (Prop)=>{
     const [dateEnd,setDateEnd] = useState(null);
     const [descript,setDescript] = useState("");
     const navigate = useNavigate();
-    const [term, setTerm] = useState(null);
+    const [term, setTerm] = useState({});
     useEffect(()=>{
         const loading = document.getElementById('add_film_loading');
         async function getFilmById(id) {
@@ -83,6 +83,7 @@ const AddFilm = (Prop)=>{
                 document.body.classList.remove('no_scroll');
             }
         }
+        
         if (Prop.isEdit){
             loading.style.display = 'flex';
             document.body.classList.add('no_scroll');
@@ -108,12 +109,11 @@ const AddFilm = (Prop)=>{
         data.set('date_start',dateStart);
         data.set('date_end',dateEnd);
         data.set('img',file);
-        //dateEnd.set('term',term);
+        data.append('term',JSON.stringify(term));
         if (Prop.isEdit){
             data.set('id',id);
         }
-        // const newFilm = {"name":name,"athor":athor,"mainchar":mainchar,"ttime":ttime,"descript":descript,
-        //     "title":type,"age":age,"date_start":dateStart,"date_end":dateEnd,"img":file};
+        
         const loading = document.getElementById('add_film_loading');
         loading.style.display = 'flex';
         document.body.classList.add('no_scroll');
@@ -189,7 +189,7 @@ const AddFilm = (Prop)=>{
                     </div> 
                     <AddFilmContext.Provider value={{term,setTerm}}>
                         <div className="addfilm__calendar-body" id='addfilm__calendar-body'>
-                            <CalendarFilmEdit date_start = {dateStart} date_end = {dateEnd}/>
+                            <CalendarFilmEdit date_start = {dateStart} date_end = {dateEnd} edit = {Prop.isEdit} id = {id}/>
                         </div>
                     </AddFilmContext.Provider>                   
                 </div>

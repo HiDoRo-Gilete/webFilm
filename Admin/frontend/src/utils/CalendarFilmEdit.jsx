@@ -23,7 +23,7 @@ function CalendarFilmEdit(Prop){
             ));
             currentDate.setDate(currentDate.getDate() + 1);
         }
-        console.log(date)
+        //console.log(date)
         return date;
     }
     function formatDate(dateString) {
@@ -55,18 +55,55 @@ function CalendarFilmEdit(Prop){
         setTerm(newterm)
     }
     useEffect(()=>{
-        let term_date = {}
+        
+        const term_date = {}
         const temp = getListDate();
         for(let i=0;i<temp.length;i++){
-            term_date[`${formatDate(temp[i])}`] = []
+            if (`${formatDate(temp[i])}` in Object.keys(term)){
+                term_date[`${formatDate(temp[i])}`] = term[`${formatDate(temp[i])}`]
+            }
+            else{
+                term_date[`${formatDate(temp[i])}`] = []
+            }
+            
         }
-        console.log('termdate: ',term_date)
+        //console.log('termdate: ',term_date)
         setListdate(temp);
+ 
+        async function getTermById(id){
+            const response = await fetch(`${api_url}/term_film/${id}`, { 
+                method: 'GET',
+                headers: {'Content-Type':'application/json'},
+                })
+            if (!response.ok) {
+                alert(`HTTP error! status: ${response.status}`);
+                //navigate('/');
+            }
+            else{
+                const data = await response.json();
+                for(const item of data) {
+                    term_date[item.id] = []
+                    for (let key of Object.keys(item)){
+                        if (key !='id'){
+                            term_date[item.id].push(item[key]);
+                        }
+                    }
+                }
+                setTerm({... term_date})
+                console.log('test1')
+            }
+        }
+        if (Prop.edit){
+            getTermById(Prop.id)
+        }
+        
         setTerm(term_date)
     },[Prop.date_end]);
     const calendarFilm = [];
-    for (let i =0;i<listdate.length;i++){
+    console.log('test',term)
+    for (let i =0;i<Object.keys(term).length;i++){
         let termlist = []
+        
         const key =  Object.keys(term)[i];
         for(let j =0;j<term[key].length;j++){
             termlist.push(<div className="grid__column-2  border__right">

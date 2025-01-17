@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 const firebase = require("firebase/app");
-const { getFirestore,collection, getDocs,addDoc,doc,setDoc,deleteDoc, getDoc } =require( 'firebase/firestore/lite');
+const { getFirestore,collection, getDocs,addDoc,doc,setDoc,deleteDoc, getDoc, documentId,query } =require( 'firebase/firestore/lite');
 const {allFilm} = require("../config/film");
 
 const {v2 } = require('cloudinary');
@@ -36,11 +36,13 @@ const initDatabase = async() =>{
 
 const postFilm = async(newfilm,id)=>{  
     try {
+        const filmDocRef = doc(db, "Film", `img_${id}`);
+        const termCollectionRef = collection(filmDocRef, "term");
         const uploadResult = await v2.uploader.upload(
            newfilm.img, {
             public_id: id,
             folder: 'WebFilm'});
-        await setDoc(doc(db, "Film", `img_${id}`), { 
+        await setDoc(filmDocRef, { 
             name: newfilm.name,
             athor: newfilm.athor,
             title: newfilm.title,
@@ -52,6 +54,24 @@ const postFilm = async(newfilm,id)=>{
             descript: newfilm.descript,
             imgurl: uploadResult.secure_url
         });
+        const term = JSON.parse(newfilm.term)
+        // for (const key of Object.keys(term)) {
+        //     console.log(key, term[key]);
+        //   }
+        
+        for (const t of Object.keys(term)){
+            let alltermdate = {};
+            for (let i =0;i<term[t].length;i++){
+                alltermdate[i.toString()]=term[t][i];
+            }
+            if(Object.keys(alltermdate).length != 0){
+                //post termdate
+                console.log(t, alltermdate)
+                const termdocref = doc(termCollectionRef,t);
+                await setDoc(termdocref,alltermdate);
+            }
+            
+        }
 
         console.log(`Document ${id} successfully written!`);
         return true
@@ -88,8 +108,19 @@ const getAllFilm = async() =>{
 const getFilmById =  async(documentId) =>{
     console.log("id:",documentId)
     const docRef = doc(db, 'Film', documentId);
-    const docSnap = await getDoc(docRef);
+    const docSnap = await getDoc(query(docRef));
     return docSnap.data();
+}
+const getTermById = async(id)=>{
+    const termCollectionRef = collection(doc(db, "Film", id), "term");
+    const termSnapshot = await getDocs(termCollectionRef);
+    //const listterm = termSnapshot.docs.map(doc => ({"id":doc.id,...doc.data()}));
+    const documents = [];
+    termSnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      documents.push({ id: doc.id, ...doc.data() });
+    });
+    return documents;
 }
 
 const getUser = async()  => {
@@ -99,4 +130,5 @@ const getUser = async()  => {
     console.log(userList);
     return userList;
 }
-module.exports ={ getUser,initDatabase,getAllFilm,deleteFilm,postFilm,getFilmById};
+module.exports ={ getUser,initDatabase,getAllFilm,deleteFilm,
+    postFilm,getFilmById,getTermById};

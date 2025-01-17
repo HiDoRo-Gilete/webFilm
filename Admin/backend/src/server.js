@@ -42,7 +42,7 @@ const app = express();
 require('dotenv').config()
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
-const {getUser,initDatabase,getAllFilm,deleteFilm,postFilm,getFilmById} = require("./apis/db")
+const {getUser,initDatabase,getAllFilm,deleteFilm,postFilm,getFilmById,getTermById} = require("./apis/db")
 
 const port = process.env.PORT
 // Create a new router instance
@@ -79,6 +79,17 @@ myRouter.get('/info_film/:id',async (req,res) =>{
     const {id} =req.params;
     const data = await getFilmById(id)
     data.id = id;
+    console.log(data)
+    res.json(data)
+  }
+  catch(e){
+    res.status(400).json(e)
+  }
+})
+myRouter.get('/term_film/:id',async(req,res)=>{
+  try{
+    const {id} =req.params;
+    const data = await getTermById(id)
     console.log(data)
     res.json(data)
   }

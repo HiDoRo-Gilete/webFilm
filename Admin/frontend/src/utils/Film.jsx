@@ -22,6 +22,7 @@ function Film(Prop){
             else{
                 const resfilm = await response.json()
                 setFilm(resfilm)
+                console.log(resfilm)
                 loading.style.display = 'none';
             }
         }
