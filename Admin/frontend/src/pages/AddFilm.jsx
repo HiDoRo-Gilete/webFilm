@@ -37,8 +37,10 @@ const AddFilm = (Prop)=>{
                 navigate('/');
             }
             else{
+               
                 const film = await response.json();
-                const input_name = document.getElementById('input_name')
+                try{
+                    const input_name = document.getElementById('input_name')
                 input_name.value=film.name
                 setName(film.name)
 
@@ -81,7 +83,12 @@ const AddFilm = (Prop)=>{
 
                 loading.style.display = 'None'
                 document.body.classList.remove('no_scroll');
+                }
+                catch(error){
+
+                }
             }
+            
         }
         
         if (Prop.isEdit){
