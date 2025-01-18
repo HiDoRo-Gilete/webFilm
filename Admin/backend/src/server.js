@@ -1,37 +1,4 @@
 
-// const express = require('express')
-// const cors = require('cors')
-// const app = express()
-// const {getUser,initDatabase,getAllFilm} = require("./apis/db")
-// require('dotenv').config()
-
-// const router = express.Router()
-// app.use(cors)
-// app.use(express.json)
-// //initDatabase()
-// //post method and get method
-// getAllFilm()
-
-
-// router.get('/get_all_film',async (req,res)=>{
-//     try{
-//         console.log(("receive"))
-//         const data = await getAllFilm()
-//         res.send(data)
-//         res.json({'data':data})
-//     }
-//     catch(e){
-//         res.status(400).json(e);
-//     }
-// })  
-// router.get('/', (req, res) => {
-//     res.send('Hello from the router!');
-//   });
-// app.use('/',router);
-
-// port = process.env.PORT
-// app.listen(port)
-// console.log(`Server is running on localhost:${port}`)
 
 
 const fs = require('fs');
@@ -42,7 +9,7 @@ const app = express();
 require('dotenv').config()
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
-const {getUser,initDatabase,getAllFilm,deleteFilm,postFilm,getFilmById,getTermById} = require("./apis/db")
+const {getUser,postUser,initDatabase,getAllFilm,deleteFilm,postFilm,getFilmById,getTermById} = require("./apis/db")
 
 const port = process.env.PORT
 // Create a new router instance
@@ -95,6 +62,20 @@ myRouter.get('/term_film/:id',async(req,res)=>{
   }
   catch(e){
     res.status(400).json(e)
+  }
+})
+myRouter.get('/all_user',async (req,res)=>{
+
+})
+
+myRouter.post('/post_user',async (req,res) =>{
+  try{
+    id = Date.now().toString();
+    postUser(id,req.body)
+    res.json({'mes':'success'})
+  } 
+  catch(error){
+    res.json({'mes':error})
   }
 })
 myRouter.post('/post_film',upload.single('img'),async (req,res) => {

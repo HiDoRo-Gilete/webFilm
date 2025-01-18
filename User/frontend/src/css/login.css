@@ -1,0 +1,144 @@
+.login__container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login__body {
+    width: 400px;
+    height: 430px;
+    position: relative;
+    margin:  0 auto;
+    background-color: rgba(21, 4, 69, 0.8);
+    border-radius: 8px;
+    border: 2px solid var(--primary-color);
+    padding: 5px;
+    overflow: hidden;
+    animation: dropDown 1s ease-out forwards;
+
+}
+.bg_login{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    position: relative;
+    align-items: center;
+}
+.bg_login-img{
+    position: absolute;
+    height: 100%;
+
+    
+}
+.login__form-box {
+    width: 380px;
+    height: 480px;
+    position: relative;
+    margin: 0 auto;
+    
+    padding: 5px;
+}
+
+.login__button-box {
+    display: flex;
+    width: 250px;
+    margin: 35px auto;
+    position: relative;
+    box-shadow: 0 0 20px 9px #ff61241f;
+    border-radius: 30px;
+}
+
+.login__toggle-btn {
+    padding: 10px 30px;
+    color: white;
+    font-size: 1.4rem;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    outline: none;
+    position: relative;
+}
+.login__toggle-btn:hover{
+    color: wheat;
+}
+
+#btn__box {
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 150px;
+    height: 100%;
+    background: linear-gradient(to right, #ff105f, #ffad06);
+    border-radius: 30px;
+    transition: .5s;
+}
+
+.input-group {
+    top: 120px;
+    position: absolute;
+    width: 280px;
+    transition: .5s;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px 0;
+    margin: 5px 0;
+    border-left: 0;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 1px solid #999;
+    outline: none;
+    color: white;
+    background: transparent;
+}
+
+.submit-btn {
+    width: 85%;
+    font-size: 1.4rem;
+    color: white;
+    padding: 10px 30px;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+    background: linear-gradient(to right, #ff105f, #ffad06);
+    border: 0;
+    outline: none;
+    border-radius: 30px;
+}
+.submit-btn:hover{
+    background:linear-gradient(to right, #350bf2, #ffad06);
+}
+.submit-btn-login{
+    margin-top: 30px;
+}
+.login__remind{
+    display: flex;
+    align-items:  center;
+}
+.login__remind .check-box {
+    display: block;
+
+    margin: 30px 10px 0 0 ;
+}
+
+.login__remind span {
+    display: block;
+    color: white;
+    font-size: 12px;
+    margin: 30px 10px 0 0 ;
+    
+    
+}
+
+#login {
+    left: 50px;
+}
+
+#register {
+    left: 450px;
+}
+.register__error{
+    color: red;
+    font-size: 1.2rem;
+    
+}
