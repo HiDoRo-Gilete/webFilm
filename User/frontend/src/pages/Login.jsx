@@ -1,11 +1,13 @@
 import '../css/login.css'
 import Bg_Login from '../assets/bg_login.png'
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
 import { api_url } from '../config/config'
+import userContext from '../utils/Context';
 
 
 const Login = ()=>{
+    const {token,setToken} = useContext(userContext);
     const [unLogin,setUnLogin] = useState('');
     const [unRegister,setUnRegister] = useState('');
     const [pwLogin,setPwLogin] = useState('');
@@ -14,7 +16,25 @@ const Login = ()=>{
     const [rpwRegister,setRpwRegister] = useState('');
     const [error,setError] = useState('');
     const [allUser,setAllUser] = useState([])
-
+    useEffect(()=>{
+        async function getAllUser(){
+            const response = await fetch(`${api_url}/all_user`, { 
+                method: 'GET',
+                headers: {'Content-Type':'application/json'},
+                
+                })
+                if (!response.ok) {
+                    alert(`HTTP error! status: ${response.status}`);
+                    //navigate('/');
+                }
+                else{
+                    const data = await response.json()
+                    setAllUser(data)
+                    console.log(data)
+                }
+        }
+        getAllUser()
+    },[])
     function registerForm() {
         document.getElementById("login").style.left = "-400px";;
         document.getElementById("register").style.left = "50px";
@@ -34,7 +54,7 @@ const Login = ()=>{
         document.getElementById("btn__box").style.left ="0";
         setError('');
     }
-    function Login(){
+    async function Login(){
         if (unLogin==''){
             setError('Username không được để trống!')
         }
@@ -42,7 +62,29 @@ const Login = ()=>{
             setError('Password không được để trống!')
         }
         else{
-            console.log('Login success!');
+            document.getElementById('login_loading').style.display = 'flex'
+
+            const response = await fetch(`${api_url}/verify_user`, { 
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body:JSON.stringify({'username':unLogin,'password':pwLogin})
+                })
+            document.getElementById('login_loading').style.display = 'none'
+            if (!response.ok) {
+                alert(`HTTP error! status: ${response.status}`);
+                //navigate('/');
+            }
+            else{
+                const data = await response.json()
+                if (data.login){
+                    alert('Login sucesss!')
+                    setToken("login")
+                }
+                else{
+                    setError('Username or password is incorrect!')
+                }
+                
+            }
         }
     }
     async function Register(){
@@ -58,8 +100,10 @@ const Login = ()=>{
         else if(pwRegister != rpwRegister){
             setError('Mật khẩu nhập lại không khớp!');
         }
+        else if(allUser.some(user => user.username === unRegister)){
+            setError('Tên đâng nhập đã tồn tại!');
+        }
         else{
-            console.log('Register success!');
             document.getElementById('login_loading').style.display = 'flex'
             const response = await fetch(`${api_url}/post_user`, { 
                 method: 'POST',
@@ -68,13 +112,13 @@ const Login = ()=>{
                 })
             document.getElementById('login_loading').style.display = 'none'
             if (!response.ok) {
-                //alert(`HTTP error! status: ${response.status}`);
+                alert(`HTTP error! status: ${response.status}`);
                 //navigate('/');
             }
             else{
                 const data = await response.json()
                 alert(data.mes)
-                
+                loginForm()
             }
         }
     }

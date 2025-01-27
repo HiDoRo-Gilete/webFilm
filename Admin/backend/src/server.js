@@ -9,7 +9,8 @@ const app = express();
 require('dotenv').config()
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
-const {getUser,postUser,initDatabase,getAllFilm,deleteFilm,postFilm,getFilmById,getTermById} = require("./apis/db")
+const {getUser,postUser,initDatabase,getAllFilm,
+  deleteFilm,postFilm,getFilmById,getTermById,getAllFilmRunning} = require("./apis/db")
 
 const port = process.env.PORT
 // Create a new router instance
@@ -41,6 +42,18 @@ myRouter.get('/get_all_film',async (req,res)=>{
         res.status(400).json(e);
     }
 }) 
+myRouter.get('/get_all_film_running',async (req,res)=>{
+  try{
+    const data = await getAllFilmRunning()
+    res.json({'data':data})
+    //res.send(data)
+}
+catch(e){
+    res.status(400).json(e);
+}
+})
+//0
+
 myRouter.get('/info_film/:id',async (req,res) =>{
   try{
     const {id} =req.params;
@@ -65,7 +78,20 @@ myRouter.get('/term_film/:id',async(req,res)=>{
   }
 })
 myRouter.get('/all_user',async (req,res)=>{
-
+  const data = await getUser();
+  const userInfo = data.map(({password, ...user})=>user)
+  console.log(userInfo)
+  res.json(userInfo);
+})
+myRouter.post('/verify_user',async (req,res) =>{
+  const data = await getUser();
+  const usercheck = req.body
+  if (data.some(user => user.username === usercheck.username && user.password === usercheck.password)){
+    res.json({'login':true});
+  }
+  else{
+    res.json({'login':false})
+  }
 })
 
 myRouter.post('/post_user',async (req,res) =>{

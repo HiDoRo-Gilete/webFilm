@@ -8,7 +8,7 @@ import { api_url } from '../config/config'
 import ReactLoading from 'react-loading';
 import PropTypes from 'prop-types'
 import CalendarFilmEdit from '../utils/CalendarFilmEdit'
-import AddFilmContext from '../utils/context,js'
+import AddFilmContext from '../utils/Context.js'
 
 const AddFilm = (Prop)=>{
     const {id} = useParams();

@@ -160,6 +160,9 @@ p{
   color: var(--white-color);
   background-color: var(--primary-color);
 }
+.btn.btn--primary:hover{
+  background-color:#d2300b;
+}
 .btn.btn--disabled{
   color: #949494;
   cursor: default;

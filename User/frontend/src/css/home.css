@@ -1,0 +1,118 @@
+.home__container{
+
+    width: 100%;
+    overflow: auto;
+    margin: 0;
+    padding: 0;
+
+    justify-items: center;
+
+    
+}
+.home__header{
+    min-width: 90vw;
+    width: 100%;
+    display: flex;
+    padding: 20px 50px 20px 50px;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--primary-color);
+
+    background-color: rgb(30, 29, 29);
+}
+.home__header h2{
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    font-weight: normal;
+}
+.home__headerlb{
+    font-size: 4rem;
+    color: var(--primary-color);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.film__body{
+    width: 85%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    margin-bottom: 300px;
+    border: 1px solid var(--primary-color);
+}
+.film__box{
+    margin: 20px;
+}
+.film__box-general{
+    display: flex;
+    /* align-items: center; */
+}
+.film__box-general-info{
+    height: 100%;
+}
+.film__info-label{
+    margin:10px 0 ;
+    display: block;
+    margin-left: 20px;
+    font-size: 1.2rem;
+    color: white;
+    font-weight: normal;
+    width: 170px;
+    text-overflow: ellipsis;
+}
+.film-img{
+    width: 100%;
+}
+.film__wrap-img{
+    width: 180px;
+    height:200px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 16px;
+}
+.film-index{
+    position: absolute;
+    font-size: 7rem;
+    left: 1rem;
+    bottom: -2rem;
+    font-weight: 400;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: white;
+}
+.film__wrap-img:hover{
+    --frowth-from: 1;
+    --frowth-to: 1.1;
+    animation: growth linear 0.2s forwards;
+    cursor: pointer;
+}
+.film__box h1{
+    display: block;
+    color: var(--primary-color);
+    font-size: 3rem;
+    width: 380px;
+    margin-top: 20px;
+    line-height: 2.5rem;
+    text-align: left;
+    margin-bottom: 30px;
+}
+.film__box h2{
+    color: white;
+    font-weight: normal;
+    width: 380px;
+    font-size: 1.4rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.film__box-descript{
+    display: block;
+    margin-top: 20px;
+    color: var(--primary-color);
+    font-size: 1.8rem;
+}
+.seemore{
+    color:rgb(69, 68, 68);
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+.seemore:hover{
+    color: rgb(99, 98, 98);
+}

@@ -104,6 +104,12 @@ const getAllFilm = async() =>{
     //console.log(listFilmClassify[0].films[0])
     return listFilmClassify
 }
+const getAllFilmRunning = async()=>{
+    const Films = collection(db, 'Film');
+    const FilmSnapshot = await getDocs(Films);
+    const listFilm = FilmSnapshot.docs.map(doc => ({"id":doc.id,...doc.data()}));
+    return listFilm.filter(film => new Date(film.date_end) >= new Date())
+}
 
 const getFilmById =  async(documentId) =>{
     console.log("id:",documentId)
@@ -126,7 +132,7 @@ const getTermById = async(id)=>{
 const getUser = async()  => {
     const user = collection(db, 'User');
     const userSnapshot = await getDocs(user);
-    const userList = userSnapshot.docs.map(doc => doc.data().username);
+    const userList = userSnapshot.docs.map(doc => doc.data());
     console.log(userList);
     return userList;
 }
@@ -136,5 +142,6 @@ const postUser = async(id,user)=>{
     const userDocRef = doc(db, "User", `user_${id}`);
     await setDoc(userDocRef,user)
 }
+
 module.exports ={ getUser,initDatabase,getAllFilm,deleteFilm,
-    postFilm,getFilmById,getTermById,postUser};
+    postFilm,getFilmById,getTermById,postUser,getAllFilmRunning};

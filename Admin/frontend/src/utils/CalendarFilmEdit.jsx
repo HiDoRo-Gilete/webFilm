@@ -3,7 +3,7 @@ import "../css/CalendarFilmEdit.css"
 import { Link,useNavigate,useParams } from 'react-router-dom'
 import { api_url } from '../config/config'
 import ReactLoading from 'react-loading';
-import AddFilmContext from '../utils/context,js'
+import AddFilmContext from './Context.js'
 import AddIcon from '../assets/add.png'
 import {getListDate,formatDate,dateShow} from '../utils/utils'
 function CalendarFilmEdit(Prop){
