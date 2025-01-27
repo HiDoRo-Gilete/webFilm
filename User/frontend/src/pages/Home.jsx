@@ -65,7 +65,7 @@ const Home = ()=> {
                         <span className="film__info-label">Tác giả: {allFilms[i].athor}</span>
                         <span className="film__info-label">Thời lượng: {allFilms[i].ttime}</span>
                         <span className="film__info-label">Thể loại: {allFilms[i].title}</span>
-                        <span className="film__info-label">Độ tuổi: {allFilms[i].age}</span>
+                        <span className="film__info-label">Độ tuổi: {allFilms[i].age}+</span>
                         <span className="film__info-label">Tình trạng: {Status(allFilms[i].date_start)}</span>
                     </div>
                     
@@ -84,7 +84,9 @@ const Home = ()=> {
                     <div className="home__header">
                         <h1 className="home__headerlb">PHIM HAY</h1>
                         <h2>Đặt vé xem phim online</h2>
-                        <div className="btn btn--primary">Đăng xuất</div>
+                        <div className="btn btn--primary"onClick={(e)=>{
+                            setToken(null)
+                        }}>Đăng xuất</div>
                     </div>
                     <div className="film__body">
                         {filmsHTML}
